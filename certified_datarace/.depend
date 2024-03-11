@@ -1,0 +1,29 @@
+tactics.vo: tactics.v
+assoc_list.vo: assoc_list.v
+eq_syntax.vo: eq_syntax.v prog_syntax.vo
+wf1.vo: wf1.v domain_prop.vo
+wf2.vo: wf2.v wf1.vo
+wf3.vo: wf3.v wf2.vo
+counting_semantic.vo: counting_semantic.v sem.vo assoc_list.vo
+domain_prop.vo: domain_prop.v counting_semantic.vo
+prog_syntax.vo: prog_syntax.v ./axioms.vo
+types.vo: types.v counting_semantic.vo
+type_safety.vo: type_safety.v types.vo wf3.vo
+disjointR.vo: disjointR.v type_safety.vo
+remove_races.vo: remove_races.v disjointR.vo counting_must_lock.vo
+final.vo: final.v points_to_semantic.vo escape.vo sem_equiv.vo semantic_equiv.vo points_to_race.vo
+semantic.vo: semantic.v eq_syntax.vo tactics.vo
+semantic_equiv.vo: semantic_equiv.v semantic.vo standard_semantic.vo
+counting_semantic_inv.vo: counting_semantic_inv.v counting_semantic.vo
+counting_semantic_equiv.vo: counting_semantic_equiv.v counting_semantic_inv.vo sem_inv.vo
+counting_points_to.vo: counting_points_to.v points_to_race.vo counting_semantic_equiv.vo
+counting_must_lock.vo: counting_must_lock.v must_lock.vo counting_points_to.vo
+sem.vo: sem.v semantic.vo
+standard_semantic.vo: standard_semantic.v sem.vo sem_equiv.vo
+points_to_semantic.vo: points_to_semantic.v sem.vo
+sem_equiv.vo: sem_equiv.v sem_inv.vo
+sem_inv.vo: sem_inv.v sem.vo
+points_to.vo: points_to.v sem.vo
+points_to_race.vo: points_to_race.v points_to.vo standard_semantic.vo semantic_equiv.vo
+must_lock.vo: must_lock.v sem_inv.vo
+escape.vo: escape.v counting_semantic_inv.vo remove_races.vo
